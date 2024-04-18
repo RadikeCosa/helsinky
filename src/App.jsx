@@ -13,9 +13,7 @@ const App = () => {
   ];
 
   const [selected, setSelected] = useState(0);
-
   const [votes, setVotes] = useState({});
-
   const handleRandomAnecdote = () => {
     const randomIndex = Math.floor(Math.random() * anecdotes.length);
     setSelected(randomIndex);
@@ -28,6 +26,10 @@ const App = () => {
     }));
   };
   console.log("Anécdotas y Votos:", votes);
+  const maxVoteIndex = Object.keys(votes).reduce(
+    (a, b) => (votes[a] > votes[b] ? a : b),
+    0 // Initial value (can be any key or null)
+  );
 
   return (
     <div>
@@ -35,6 +37,12 @@ const App = () => {
       <button onClick={handleVote}>Votar</button>
       <p>{anecdotes[selected]}</p>
       <p>Votos: {votes[selected] || 0}</p>
+      {maxVoteIndex && (
+        <p>
+          Anécdota con más votos: {anecdotes[maxVoteIndex]} (Votos:{" "}
+          {votes[maxVoteIndex]})
+        </p>
+      )}
     </div>
   );
 };
