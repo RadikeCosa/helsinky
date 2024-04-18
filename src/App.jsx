@@ -1,65 +1,40 @@
 import { useState } from "react";
 
-// eslint-disable-next-line react/prop-types
-const StatisticLine = ({ text, value }) => {
-  return (
-    <div>
-      <p>
-        {text}: {value}
-      </p>
-    </div>
-  );
-};
-
-// eslint-disable-next-line react/prop-types
-const Statistics = ({ good, neutral, bad }) => {
-  const all = good + neutral + bad;
-  const badPoints = -bad;
-  const sum = good + badPoints;
-  const average = sum / all;
-  const positive = good / all;
-
-  if (all === 0) {
-    return (
-      <div>
-        <p>No se ha proporcionado ningún comentario</p>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <h1>Estadísticas</h1>
-      {/* Usa el componente StatisticLine */}
-      <StatisticLine text="Bueno" value={good} />
-      <StatisticLine text="Neutral" value={neutral} />
-      <StatisticLine text="Malo" value={bad} />
-      <StatisticLine text="Total" value={all} />
-      <StatisticLine text="Promedio" value={average.toFixed(2)} />
-      <StatisticLine
-        text="Comentarios positivos"
-        value={(positive * 100).toFixed(2) + "%"}
-      />
-    </div>
-  );
-};
-// eslint-disable-next-line react/prop-types
-const Button = ({ handleClick, text }) => (
-  <button onClick={handleClick}>{text}</button>
-);
-
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
+  const anecdotes = [
+    "If it hurts, do it more often.",
+    "Adding manpower to a late software project makes it later!",
+    "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+    "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
+    "Premature optimization is the root of all evil.",
+    "Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.",
+    "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.",
+    "The only way to go fast, is to go well.",
+  ];
+
+  const [selected, setSelected] = useState(0);
+
+  const [votes, setVotes] = useState({});
+
+  const handleRandomAnecdote = () => {
+    const randomIndex = Math.floor(Math.random() * anecdotes.length);
+    setSelected(randomIndex);
+  };
+
+  const handleVote = () => {
+    setVotes((prevVotes) => ({
+      ...prevVotes,
+      [selected]: (prevVotes[selected] || 0) + 1,
+    }));
+  };
+  console.log("Anécdotas y Votos:", votes);
 
   return (
     <div>
-      <h2>Give Feedback</h2>
-      <Button handleClick={() => setGood(good + 1)} text="Good" />
-      <Button handleClick={() => setNeutral(neutral + 1)} text="Neutral" />
-      <Button handleClick={() => setBad(bad + 1)} text="Bad" />
-      <Statistics good={good} neutral={neutral} bad={bad} />
+      <button onClick={handleRandomAnecdote}>Mostrar Anécdota</button>
+      <button onClick={handleVote}>Votar</button>
+      <p>{anecdotes[selected]}</p>
+      <p>Votos: {votes[selected] || 0}</p>
     </div>
   );
 };
