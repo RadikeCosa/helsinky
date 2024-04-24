@@ -1,22 +1,43 @@
 import { useState } from "react";
+import Contact from "./components/Contact";
 
-const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
-  const [newName, setNewName] = useState("");
+const App = (props) => {
+  const [contacts, setContacts] = useState(props.contacts);
+  const [newContact, setNewContact] = useState("");
+  const [newNumber, setNewNumber] = useState("");
+
+  const addContact = (event) => {
+    event.preventDefault();
+    const contactObject = {
+      name: newContact,
+      number: newNumber,
+    };
+    setContacts(contacts.concat(contactObject));
+    setNewContact("");
+  };
+  const handleContactChange = (event) => {
+    setNewContact(event.target.value);
+  };
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value);
+  };
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form>
-        <div>
-          name: <input />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      ...<div>debug: {newName}</div>
+      <div>
+        <form onSubmit={addContact}>
+          <input value={newContact} onChange={handleContactChange} />
+          <input value={newNumber} onChange={handleNumberChange} />
+          <button type="submit">Save Contact</button>
+        </form>
+      </div>
+      <h2>Notes</h2>
+      <ul>
+        {contacts.map((contact) => (
+          <Contact key={contact.name} contact={contact} />
+        ))}
+        <div>debug: {newContact}</div>
+      </ul>
     </div>
   );
 };

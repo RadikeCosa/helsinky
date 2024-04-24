@@ -1,0 +1,3 @@
+Almacenar notas en el estado del componente App. => para eso usamos useState
+
+
