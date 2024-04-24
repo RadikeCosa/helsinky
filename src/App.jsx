@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Contact from "./components/Contact";
 
-const App = (props) => {
-  const [contacts, setContacts] = useState(props.contacts);
+const App = () => {
+  const [contacts, setContacts] = useState([]);
   const [newContact, setNewContact] = useState("");
   const [newNumber, setNewNumber] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3001/persons").then((response) => {
+      console.log("promise fullfilled");
+      setContacts(response.data);
+    });
+  }, []);
+  console.log("reder", contacts.length, "notes");
 
   const addContact = (event) => {
     event.preventDefault();
@@ -14,6 +24,7 @@ const App = (props) => {
     };
     setContacts(contacts.concat(contactObject));
     setNewContact("");
+    setNewNumber("");
   };
   const handleContactChange = (event) => {
     setNewContact(event.target.value);
