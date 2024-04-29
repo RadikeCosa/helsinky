@@ -34,6 +34,8 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: green;
+  font-style: italic;
 }
 
 button {
@@ -53,6 +55,20 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+.note {
+  color: orange;
+  padding-top: 3px;
+  font-size: 15px;
+}
+.error {
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 @media (prefers-color-scheme: light) {
